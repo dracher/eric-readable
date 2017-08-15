@@ -6,22 +6,20 @@ const apiURL = "http://0.0.0.0:5001"
 export function fetchCategories() {
   return fetch(apiURL + "/categories", { headers })
     .then(res => res.json())
-    .then(({ categories }) => categories.map(({ name }) => name))
-    .catch(e => console.log(e))
+    .then(data => data)
+    // .then(({ categories }) => categories.map(({ name }) => name))
 }
 
 export function fetchPostsByCategory(category) {
   return fetch(apiURL + `/${category}/posts`, { headers })
     .then(res => res.json())
     .then(posts => posts)
-    .catch(e => console.log(e))
 }
 
 export function fetchAllPosts() {
   return fetch(apiURL + `/posts`, { headers })
     .then(res => res.json())
     .then(posts => posts)
-    .catch(e => console.log(e))
 }
 
 export function newPost(params) {
@@ -43,7 +41,6 @@ export function fetchPostByID(post_id) {
   return fetch(apiURL + `/posts/${post_id}`, { headers })
     .then(res => res.json())
     .then(post => post)
-    .catch(e => console.log(e))
 }
 
 export function votePostByID(post_id, option) {
@@ -67,7 +64,6 @@ export function updatePostByID(post_id, params) {
     body: JSON.stringify({ ...params })
   })
     .then(res => res.json())
-    .catch(e => console.log(e))
 }
 
 export function deletePostByID(post_id) {
@@ -76,13 +72,11 @@ export function deletePostByID(post_id) {
     method: "DELETE"
   })
     .then(res => res)
-    .catch(e => console.log(e))
 }
 
 export function fetchCommentsByPostID(post_id) {
   return fetch(apiURL + `/posts/${post_id}/comments`, { headers })
     .then(res => res.json())
-    .catch(e => console.log(e))
 }
 
 // params : { author, body, parentID }
