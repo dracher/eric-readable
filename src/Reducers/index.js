@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux'
-import { UPDATE_CATEGORIES, UPDATE_POSTS, VOTE_POST } from '../Actions'
+import { UPDATE_CATEGORIES, UPDATE_POSTS, VOTE_POST, SORT_POST, NEW_POST } from '../Actions'
 
 function categories(state = {}, action) {
   const { categories } = action
-
   switch (action.type) {
     case UPDATE_CATEGORIES:
       return {
@@ -25,16 +24,41 @@ function posts(state = { posts: [] }, action) {
       }
     case VOTE_POST:
       const { postId, voteType } = action
-      let p = state.posts.map(post => {
-        if (post.id === postId) {
-          voteType === 'up' ? post.voteScore += 1 : post.voteScore -= 1
-          return post
-        }
-        return post
-      })
       return {
         ...state,
-        posts: p
+        posts: state.posts.map(post => {
+          if (post.id === postId) {
+            voteType === 'up' ? post.voteScore += 1 : post.voteScore -= 1
+            return post
+          }
+          return post
+        })
+      }
+    case SORT_POST:
+      const { col } = action
+      switch (col) {
+        case 'voteScore':
+          return {
+            ...state,
+            posts: state.posts.sort((a, b) => {
+              return a.voteScore < b.voteScore
+            })
+          }
+        case 'timestamp':
+          return {
+            ...state,
+            posts: state.posts.sort((a, b) => {
+              return a.timestamp < b.timestamp
+            })
+          }
+        default:
+          return state
+      }
+    case NEW_POST:
+      state.posts.push({ ...action })
+      return {
+        ...state,
+        posts: state.posts
       }
     default:
       return state

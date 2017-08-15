@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import * as api from "../Util/api.js"
-import { updateCategories } from "../Actions"
+import { updateCategories, newPost } from "../Actions"
 
 class Categories extends Component {
   componentDidMount() {
@@ -22,6 +22,7 @@ class Categories extends Component {
               </a>
             )
           : <div />}
+          <a className="item right active" onClick={() => this.props.newPost({title:'asd', author: 'eric', category: 'redux', body: 'asdfgh', voteScore: 1})}><i className="plus icon" />New Post</a>
       </div>
     )
   }
@@ -34,7 +35,8 @@ function mapStateToProps({ categories }) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    updateCategories: data => dispatch(updateCategories(data))
+    updateCategories: data => dispatch(updateCategories(data)),
+    newPost: data => dispatch(newPost(data))
   }
 }
 
