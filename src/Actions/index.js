@@ -19,9 +19,10 @@ export function updatePosts(posts) {
   }
 }
 
-export function votePost({postId}) {
+export function votePost({postId, voteType}) {
   return {
     type: VOTE_POST,
-    postId
+    postId,
+    voteType
   }
 }

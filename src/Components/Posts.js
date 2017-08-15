@@ -23,7 +23,7 @@ class Posts extends Component {
               <div className="ui card fluid" >
                 <div className="content">
                   <div className="right floated ui grey circular label">{post.voteScore}</div>
-                  
+
                   <div className="header">
                     {post.title}
                   </div>
@@ -38,15 +38,15 @@ class Posts extends Component {
                 </div>
                 <div className="extra content">
                   <span className="left floated like">
-                    <i className="thumbs outline up icon" onClick={this.props.votePost(post.id, 'up')} />
+                    <i className="thumbs outline up icon" onClick={() => this.props.votePost({ postId: post.id, voteType: 'up' })} />
                   </span>
                   <span className="right floated star">
-                    <i className="thumbs down icon" onClick={this.props.votePost(post.id, 'down')} />
+                    <i className="thumbs down icon" onClick={() => this.props.votePost({ postId: post.id, voteType: 'down' })} />
                   </span>
                 </div>
               </div>
-              </div>
-            )
+            </div>
+          )
           : <div />}
       </div>
     )

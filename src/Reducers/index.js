@@ -15,17 +15,17 @@ function categories(state = {}, action) {
   }
 }
 
-function posts(state = {}, action) {
-  const { posts, postId, voteType } = action
-
+function posts(state = { posts: [] }, action) {
   switch (action.type) {
     case UPDATE_POSTS:
+      const { posts } = action
       return {
         ...state,
         posts
       }
     case VOTE_POST:
-      let p = posts.posts.map(post => {
+      const { postId, voteType } = action
+      let p = state.posts.map(post => {
         if (post.id === postId) {
           voteType === 'up' ? post.voteScore += 1 : post.voteScore -= 1
           return post
@@ -34,7 +34,7 @@ function posts(state = {}, action) {
       })
       return {
         ...state,
-        p
+        posts: p
       }
     default:
       return state
