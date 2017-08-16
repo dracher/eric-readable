@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-import { UPDATE_CATEGORIES, UPDATE_POSTS, VOTE_POST, SORT_POST, NEW_POST } from '../Actions'
+import { UPDATE_CATEGORIES, UPDATE_POSTS, VOTE_POST, SORT_POST, NEW_POST, GROUP_POST } from '../Actions'
 
 function categories(state = {categories: []}, action) {
   const { categories } = action
@@ -24,15 +24,14 @@ function posts(state = { posts: [] }, action) {
         posts
       }
     case VOTE_POST:
-      const { postId, voteType } = action
+      const { post } = action
       return {
         ...state,
-        posts: state.posts.map(post => {
-          if (post.id === postId) {
-            voteType === 'up' ? post.voteScore += 1 : post.voteScore -= 1
+        posts: state.posts.map(p => {
+          if (p.id === post.id) {
             return post
           }
-          return post
+          return p
         })
       }
     case SORT_POST:
@@ -56,11 +55,20 @@ function posts(state = { posts: [] }, action) {
           return state
       }
     case NEW_POST:
-      state.posts.push({ ...action })
+      state.posts.push(action.post)
       return {
         ...state,
         posts: state.posts
       }
+    case GROUP_POST:
+      const { category } = action
+      if (category !== 'all') {
+        return {
+          ...state,
+          posts: state.posts.filter(post => post.category === category)
+        }
+      }
+      return state
     default:
       return state
   }

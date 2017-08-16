@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Link } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import * as api from "../Util/api.js"
 import { updateCategories, newPost } from "../Actions"
@@ -14,13 +14,13 @@ class Categories extends Component {
     const { categories } = this.props
     return (
       <div className="ui massive menu">
-        <a className="item"><i className="list layout icon" />Categories</a>
+        <Link className="item" to="/"><i className="list layout icon" />Categories</Link>
         {Object.keys(categories).length !== 0
           ? categories.categories.map(c =>
-              <a className="item" key={c.path} href={c.path}>
+              <NavLink className="item" key={c.path} to={c.path}>
                 <i className="comment outline icon" /> {c.name}
-                <div className="floating ui red label">1</div>
-              </a>
+                {/* <div className="floating ui red label">1</div> */}
+              </NavLink>
             )
           : <div />}
           <Link className="item right active" to="/post/new"><i className="plus icon" />New Post</Link>

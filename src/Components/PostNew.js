@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
-import { newPost } from '../Actions'
+import { thunkNewPost } from '../Actions'
 
 class PostNew extends Component {
   state = {
@@ -23,7 +23,7 @@ class PostNew extends Component {
       author,
       category
     }
-    this.props.newPost(payload)
+    this.props.thunkNewPost(payload)
   }
 
   render() {
@@ -76,7 +76,7 @@ function mapStateToProps({ categories }) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    newPost: data => dispatch(newPost(data))
+    thunkNewPost: data => dispatch(thunkNewPost(data))
   }
 }
 
