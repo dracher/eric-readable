@@ -1,8 +1,8 @@
 import React, { Component } from "react"
-import './Post.css'
+import './Posts.css'
 import { connect } from "react-redux"
 import * as api from "../Util/api.js"
-import { updatePosts, votePost, sortPost, newPost } from "../Actions"
+import { updatePosts, votePost, sortPost } from "../Actions"
 
 class Posts extends Component {
   componentDidMount() {
@@ -68,7 +68,6 @@ function mapDispatchToProps(dispatch) {
     updatePosts: data => dispatch(updatePosts(data)),
     votePost: data => dispatch(votePost(data)),
     sortVote: data => dispatch(sortPost(data)),
-    newPost: data => dispatch(newPost(data))
   }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import * as api from "../Util/api.js"
 import { updateCategories, newPost } from "../Actions"
@@ -22,7 +23,7 @@ class Categories extends Component {
               </a>
             )
           : <div />}
-          <a className="item right active" onClick={() => this.props.newPost({title:'asd', author: 'eric', category: 'redux', body: 'asdfgh', voteScore: 1})}><i className="plus icon" />New Post</a>
+          <Link className="item right active" to="/post/new"><i className="plus icon" />New Post</Link>
       </div>
     )
   }

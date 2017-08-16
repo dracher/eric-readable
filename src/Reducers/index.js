@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 import { UPDATE_CATEGORIES, UPDATE_POSTS, VOTE_POST, SORT_POST, NEW_POST } from '../Actions'
 
-function categories(state = {}, action) {
+function categories(state = {categories: []}, action) {
   const { categories } = action
   switch (action.type) {
     case UPDATE_CATEGORIES:
@@ -67,5 +68,6 @@ function posts(state = { posts: [] }, action) {
 
 export default combineReducers({
   categories,
-  posts
+  posts,
+  routing: routerReducer
 })

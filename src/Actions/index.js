@@ -37,15 +37,15 @@ export function sortPost({col}) {
   }
 }
 
-export function newPost({title, body, author, category, voteScore}) {
+export function newPost({title, body, author, category}) {
   return {
     type: NEW_POST,
     id: uuidv4(),
     timestamp: Date.now(),
+    voteScore: 1,
     title,
     body,
     author,
-    category,
-    voteScore
+    category
   }
 }
