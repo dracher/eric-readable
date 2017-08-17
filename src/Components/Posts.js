@@ -1,44 +1,27 @@
 import React, { Component } from "react"
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom"
 import "./Posts.css"
 import { connect } from "react-redux"
-import * as api from "../Util/api.js"
-import { updatePosts, thunkVotePost, sortPost, groupPost } from "../Actions"
+import * as api from "../Util/api"
+import { unixToReadable } from "../Util/helper"
+import { addPost } from "../Actions"
 
 class Posts extends Component {
   componentDidMount() {
-    api
-      .fetchAllPosts()
-      .then(posts => {
-        this.props.updatePosts(posts)
-      })
-      .then(() => this.props.groupPost(this.props.category))
-      .then(() => this.props.sortVote({ col: "voteScore" }))
-      
+    api.fetchAllPosts().then(post => {
+      this.props.addPost(post)
+    })
   }
-  unixToReadable(param) {
-    let d = new Date(param)
-    return d.toDateString()
-  }
+
   render() {
     const { posts } = this.props
     return (
       <div>
-        <button
-          className="ui button primary"
-          onClick={() => this.props.sortVote({ col: "voteScore" })}
-        >
-          SortByVote
-        </button>
-        <button
-          className="ui button primary"
-          onClick={() => this.props.sortVote({ col: "timestamp" })}
-        >
-          SortByDate
-        </button>
+        <button className="ui button primary">SortByVote</button>
+        <button className="ui button primary">SortByDate</button>
         <div className="ui one column grid">
-          {posts.posts && posts.posts.length !== 0
-            ? posts.posts.map(post =>
+          {posts.length !== 0
+            ? posts.map(post =>
                 <div className="column" key={post.id}>
                   <div className="ui card fluid">
                     <div className="content">
@@ -47,12 +30,12 @@ class Posts extends Component {
                       </div>
 
                       <div className="header">
-                        <Link to={'/post/'+ post.id}>
-                        {post.title} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [{post.category}]
+                        <Link to={"/post/" + post.id}>
+                          {post.title} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [{post.category}]
                         </Link>
                       </div>
                       <div className="meta">
-                        {post.author} - {this.unixToReadable(post.timestamp)}
+                        {post.author} - {unixToReadable(post.timestamp)}
                       </div>
                       <div className="description">
                         <p>
@@ -62,24 +45,10 @@ class Posts extends Component {
                     </div>
                     <div className="extra content">
                       <span className="left floated like">
-                        <i
-                          className="thumbs outline up icon"
-                          onClick={() =>
-                            this.props.thunkVotePost({
-                              postId: post.id,
-                              option: "upVote"
-                            })}
-                        />
+                        <i className="thumbs outline up icon" />
                       </span>
                       <span className="right floated star">
-                        <i
-                          className="thumbs down icon"
-                          onClick={() =>
-                            this.props.thunkVotePost({
-                              postId: post.id,
-                              option: "downVote"
-                            })}
-                        />
+                        <i className="thumbs down icon" />
                       </span>
                     </div>
                   </div>
@@ -99,10 +68,11 @@ function mapStateToProps({ posts }) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    updatePosts: data => dispatch(updatePosts(data)),
-    thunkVotePost: data => dispatch(thunkVotePost(data)),
-    sortVote: data => dispatch(sortPost(data)),
-    groupPost: data => dispatch(groupPost(data))
+    addPost: data => dispatch(addPost(data))
+    // updatePosts: data => dispatch(updatePosts(data)),
+    // thunkVotePost: data => dispatch(thunkVotePost(data)),
+    // sortVote: data => dispatch(sortPost(data)),
+    // groupPost: data => dispatch(groupPost(data))
   }
 }
 

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import thunk from "redux-thunk"
 import { createStore, applyMiddleware, compose } from "redux"
 import { Provider } from "react-redux"
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom"
 import { createBrowserHistory } from "history"
 import { syncHistoryWithStore } from "react-router-redux"
 import reducer from "./Reducers"

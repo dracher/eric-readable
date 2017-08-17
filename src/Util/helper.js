@@ -6,3 +6,8 @@ export function uuidv4() {
         (15 >> (c / 4)))).toString(16)
   )
 }
+
+export function unixToReadable(param) {
+  let d = new Date(param)
+  return d.toDateString()
+}

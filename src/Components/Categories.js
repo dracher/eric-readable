@@ -1,29 +1,35 @@
 import React, { Component } from "react"
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import * as api from "../Util/api.js"
-import { updateCategories, newPost } from "../Actions"
+import { addCategory, setCategoryFilter } from "../Actions"
 
 class Categories extends Component {
   componentDidMount() {
     api.fetchCategories().then(data => {
-      this.props.updateCategories(data)
+      this.props.addCategory(data)
     })
   }
   render() {
     const { categories } = this.props
     return (
       <div className="ui massive menu">
-        <Link className="item" to="/"><i className="list layout icon" />Categories</Link>
-        {Object.keys(categories).length !== 0
-          ? categories.categories.map(c =>
-              <NavLink className="item" key={c.path} to={c.path}>
-                <i className="comment outline icon" /> {c.name}
-                {/* <div className="floating ui red label">1</div> */}
-              </NavLink>
-            )
-          : <div />}
-          <Link className="item right active" to="/post/new"><i className="plus icon" />New Post</Link>
+        <Link className="item" to="/">
+          <i className="list layout icon" />Categories
+        </Link>
+        {categories.length !== 0 &&
+          categories.map(c =>
+            <a
+              className="item"
+              onClick={() => this.props.setCategoryFilter(c)}
+              key={c}
+            >
+              <i className="comment outline icon" /> {c}
+            </a>
+          )}
+        <Link className="item right active" to="/post/new">
+          <i className="plus icon" />New Post
+        </Link>
       </div>
     )
   }
@@ -31,13 +37,14 @@ class Categories extends Component {
 
 function mapStateToProps({ categories }) {
   return {
-    categories: categories
+    categories: categories.categories,
+    filter: categories.filter
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
-    updateCategories: data => dispatch(updateCategories(data)),
-    newPost: data => dispatch(newPost(data))
+    addCategory: data => dispatch(addCategory(data)),
+    setCategoryFilter: data => dispatch(setCategoryFilter(data))
   }
 }
 

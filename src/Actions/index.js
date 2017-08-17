@@ -1,72 +1,46 @@
-import * as api from '../Util/api'
+import * as api from "../Util/api"
 
-export const UPDATE_POSTS = 'UPDATE_POSTS'
-export const NEW_POST = "NEW_POST"
-export const DEL_POST = "DEL_POST"
+export const SET_CATEGORY_FILTER = "SET_CATEGORY_FILTER"
+export const ADD_CATEGORY = "ADD_CATEGORY"
+export const ADD_POST = "ADD_POST"
 export const EDIT_POST = "EDIT_POST"
+export const DEL_POST = "DEL_POST"
 export const VOTE_POST = "VOTE_POST"
 export const SORT_POST = "SORT_POST"
-export const GROUP_POST = "GROUP_POST"
-export const UPDATE_CATEGORIES = "UPDATE_CATEGORIES"
 
-export function updateCategories({ categories }) {
-  return {
-    type: UPDATE_CATEGORIES,
-    categories
-  }
+export function setCategoryFilter(filter) {
+  return { type: SET_CATEGORY_FILTER, filter }
 }
 
-export function updatePosts(posts) {
-  return {
-    type: UPDATE_POSTS,
-    posts
-  }
+export function addCategory(category) {
+  return { type: ADD_CATEGORY, category }
+}
+
+export function addPost(post) {
+  return { type: ADD_POST, post }
+}
+
+export function editPost(post) {
+  return { type: EDIT_POST, post }
+}
+
+export function delPost(postId) {
+  return { type: DEL_POST, postId }
 }
 
 export function votePost(post) {
-  return {
-    type: VOTE_POST,
-    post
-  }
+  return { type: VOTE_POST, post }
 }
 
-export function sortPost({col}) {
-  return {
-    type: SORT_POST,
-    col
-  }
+export function sortPost(by) {
+  return { type: SORT_POST, by }
 }
 
-export function newPost(post) {
-  return {
-    type: NEW_POST,
-    post
-  }
-}
-
-export function groupPost(category) {
-  return {
-    type: GROUP_POST,
-    category
-  }
-}
-
-export function thunkVotePost({postId, option}) {
+export function thunkAddPost(post) {
   return function(dispatch) {
-    return api.votePostByID(postId, option)
-      .then(post => {
-        dispatch(votePost(post))
-      })
-      .catch(e => console.log(e))
-  }
-}
-
-export function thunkNewPost({title, body, author, category}) {
-  return function(dispatch) {
-    return api.newPost({title, body, author, category})
-      .then(post => {
-        dispatch(newPost(post))
-      })
-      .catch(e => console.log(e))
+    return api
+      .newPost(post)
+      .then(post => dispatch(addPost([].push(post))))
+      .catch(e => console.error(e))
   }
 }

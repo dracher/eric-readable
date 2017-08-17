@@ -1,73 +1,47 @@
-import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
-import { UPDATE_CATEGORIES, UPDATE_POSTS, VOTE_POST, SORT_POST, NEW_POST, GROUP_POST } from '../Actions'
+import { combineReducers } from "redux"
+import { routerReducer } from "react-router-redux"
+import { SET_CATEGORY_FILTER, ADD_CATEGORY } from "../Actions"
+import { ADD_POST, EDIT_POST, DEL_POST, VOTE_POST, SORT_POST } from "../Actions"
 
-function categories(state = {categories: []}, action) {
-  const { categories } = action
+function categories(state = { categories: [], filter: "ALL" }, action) {
+  let { category, filter } = action
   switch (action.type) {
-    case UPDATE_CATEGORIES:
+    case ADD_CATEGORY:
       return {
         ...state,
-        categories
+        categories: [
+          ...state.categories,
+          ...category.filter(c => !state.categories.includes(c))
+        ]
+      }
+    case SET_CATEGORY_FILTER:
+      return {
+        ...state,
+        filter
       }
     default:
       return state
   }
 }
 
-function posts(state = { posts: [] }, action) {
+function posts(state = [], action) {
+  let { post, postId } = action
   switch (action.type) {
-    case UPDATE_POSTS:
-      const { posts } = action
-      return {
-        ...state,
-        posts
-      }
-    case VOTE_POST:
-      const { post } = action
-      return {
-        ...state,
-        posts: state.posts.map(p => {
-          if (p.id === post.id) {
-            return post
-          }
+    case ADD_POST:
+      return [...state, ...post]
+    case EDIT_POST:
+      return state.map(p => (p.id === post.id ? post : p))
+    case DEL_POST:
+      return state.map(p => {
+        if (p.id === postId) {
+          p.deleted = true
           return p
-        })
-      }
-    case SORT_POST:
-      const { col } = action
-      switch (col) {
-        case 'voteScore':
-          return {
-            ...state,
-            posts: state.posts.sort((a, b) => {
-              return a.voteScore < b.voteScore
-            })
-          }
-        case 'timestamp':
-          return {
-            ...state,
-            posts: state.posts.sort((a, b) => {
-              return a.timestamp < b.timestamp
-            })
-          }
-        default:
-          return state
-      }
-    case NEW_POST:
-      state.posts.push(action.post)
-      return {
-        ...state,
-        posts: state.posts
-      }
-    case GROUP_POST:
-      const { category } = action
-      if (category !== 'all') {
-        return {
-          ...state,
-          posts: state.posts.filter(post => post.category === category)
         }
-      }
+        return p
+      })
+    case VOTE_POST:
+      return state
+    case SORT_POST:
       return state
     default:
       return state

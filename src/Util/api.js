@@ -6,8 +6,8 @@ const apiURL = "http://0.0.0.0:5001"
 export function fetchCategories() {
   return fetch(apiURL + "/categories", { headers })
     .then(res => res.json())
-    .then(data => data)
-    // .then(({ categories }) => categories.map(({ name }) => name))
+    .then(({ categories }) => categories.map(({ name }) => name))
+  // .then(({ categories }) => categories.map(({ name }) => name))
 }
 
 export function fetchPostsByCategory(category) {
@@ -62,21 +62,20 @@ export function updatePostByID(post_id, params) {
     },
     method: "PUT",
     body: JSON.stringify({ ...params })
-  })
-    .then(res => res.json())
+  }).then(res => res.json())
 }
 
 export function deletePostByID(post_id) {
   return fetch(apiURL + `/posts/${post_id}`, {
     headers,
     method: "DELETE"
-  })
-    .then(res => res)
+  }).then(res => res)
 }
 
 export function fetchCommentsByPostID(post_id) {
-  return fetch(apiURL + `/posts/${post_id}/comments`, { headers })
-    .then(res => res.json())
+  return fetch(apiURL + `/posts/${post_id}/comments`, { headers }).then(res =>
+    res.json()
+  )
 }
 
 // params : { author, body, parentID }
@@ -94,13 +93,13 @@ export function newComment(params) {
     },
     method: "POST",
     body: JSON.stringify(payload)
-  })
-    .then(res => res)
+  }).then(res => res)
 }
 
 export function fetchCommentByID(comment_id) {
-  return fetch(apiURL + `/comments/${comment_id}`, { headers })
-    .then(res => res.json())
+  return fetch(apiURL + `/comments/${comment_id}`, { headers }).then(res =>
+    res.json()
+  )
 }
 
 export function voteCommentByID(comment_id, option) {
@@ -109,7 +108,7 @@ export function voteCommentByID(comment_id, option) {
       ...headers,
       "Content-Type": "application/json"
     },
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify({ option })
   }).then(res => res)
 }
@@ -120,7 +119,7 @@ export function updateCommentByID(comment_id, params) {
       ...headers,
       "Content-Type": "application/json"
     },
-    method: 'PUT',
+    method: "PUT",
     body: JSON.stringify({
       ...params,
       timestamp: Date.now()
