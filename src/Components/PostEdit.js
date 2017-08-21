@@ -12,6 +12,7 @@ class PostEdit extends Component {
     this.setState({ [k]: v })
   }
   handleSubmit(e) {
+    let backUrl = `/post/${this.props.postId}`
     e.preventDefault()
     const { title, body } = this.state
     let payload = {
@@ -20,7 +21,7 @@ class PostEdit extends Component {
     }
     this.props
       .thunkEditPost({ postId: this.state.id, post: payload })
-      .then(() => this.props.history.push("/"))
+      .then(() => this.props.history.push(backUrl))
   }
 
   render() {
@@ -50,7 +51,7 @@ class PostEdit extends Component {
         >
           Submit
         </button>
-        <Link className="ui button red" to="/">
+        <Link className="ui button red" to={"/post/" + this.props.postId}>
           Cancel
         </Link>
       </form>

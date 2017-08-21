@@ -1,11 +1,11 @@
-import React, { Component } from "react"
-import { Link } from "react-router-dom"
-import { connect } from "react-redux"
-import Comment from "./Comment"
-import CommentNew from "./CommentNew"
-import { unixToReadable } from "../Util/helper"
-import * as api from "../Util/api"
-import { addComment, sortComment, thunkDelPost } from "../Actions"
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import Comment from "./Comment";
+import CommentNew from "./CommentNew";
+import { unixToReadable } from "../Util/helper";
+import * as api from "../Util/api";
+import { addComment, sortComment, thunkDelPost } from "../Actions";
 
 class PostDetail extends Component {
   state = {
@@ -13,20 +13,23 @@ class PostDetail extends Component {
       this.props.posts.filter(post => post.id === this.props.postId).length ===
         1 &&
       this.props.posts.filter(post => post.id === this.props.postId)[0].id
-  }
+  };
 
   componentDidMount() {
     api
       .fetchCommentsByPostID(this.props.postId)
       .then(comments => this.props.addComment(comments))
-      .then(() => this.props.sortComment("voteScore"))
+      .then(() => this.props.sortComment("voteScore"));
   }
   removePost(postId) {
-    this.props.thunkDelPost(postId).then(() => this.props.history.push("/"))
+    this.props.thunkDelPost(postId).then(() => this.props.history.push("/"));
   }
   render() {
     return (
       <div className="column">
+        <Link to="/" className="ui labeled icon button primary">
+          <i className="arrow left icon" />Back to Home
+        </Link>
         {this.props.posts
           .filter(post => post.id === this.props.postId)
           .map(post =>
@@ -65,25 +68,28 @@ class PostDetail extends Component {
 
         <CommentNew parentId={this.state.postId} />
 
-        <button
-          className="ui button primary compact"
-          onClick={e => this.props.sortComment("voteScore")}
-        >
-          SortCommentsByVote
-        </button>
-        <button
-          className="ui button primary compact"
-          onClick={e => this.props.sortComment("timestamp")}
-        >
-          SortCommentsByDate
-        </button>
+        {this.props.comments.length !== 0 &&
+          <div>
+            <button
+              className="ui button primary compact"
+              onClick={e => this.props.sortComment("voteScore")}
+            >
+              SortCommentsByVote
+            </button>
+            <button
+              className="ui button primary compact"
+              onClick={e => this.props.sortComment("timestamp")}
+            >
+              SortCommentsByDate
+            </button>
+          </div>}
 
         {this.props.comments.length !== 0 &&
           this.props.comments
             .filter(c => !c.deleted)
             .map(comment => <Comment key={comment.id} comment={comment} />)}
       </div>
-    )
+    );
   }
 }
 
@@ -91,14 +97,14 @@ function mapStateToProps({ posts, comments }) {
   return {
     posts: posts,
     comments: comments
-  }
+  };
 }
 function mapDispatchToProps(dispatch) {
   return {
     addComment: data => dispatch(addComment(data)),
     sortComment: data => dispatch(sortComment(data)),
     thunkDelPost: data => dispatch(thunkDelPost(data))
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);

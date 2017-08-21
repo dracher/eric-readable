@@ -15,7 +15,7 @@ class Categories extends Component {
     return (
       <div className="ui massive menu">
         <Link className="item" to="/">
-          <i className="list layout icon" />Categories
+          <i className="list layout icon" />Reabable
         </Link>
         <a className="item" onClick={() => this.props.setCategoryFilter("ALL")}>
           <i className="comment outline icon" /> ALL

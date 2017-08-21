@@ -110,7 +110,7 @@ export function voteCommentByID(comment_id, option) {
     },
     method: "POST",
     body: JSON.stringify({ option })
-  }).then(res => res)
+  }).then(res => res.json)
 }
 
 export function updateCommentByID(comment_id, params) {
@@ -124,7 +124,7 @@ export function updateCommentByID(comment_id, params) {
       ...params,
       timestamp: Date.now()
     })
-  }).then(res => res)
+  }).then(res => res.json())
 }
 
 export function deleteCommentByID(comment_id) {

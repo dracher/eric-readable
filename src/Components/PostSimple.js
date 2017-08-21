@@ -1,15 +1,15 @@
-import React, { Component } from "react"
-import { Link } from "react-router-dom"
-import { votePost } from "../Actions"
-import { connect } from "react-redux"
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { thunkVotePost } from "../Actions";
+import { connect } from "react-redux";
 
 class PostSimple extends Component {
   handleVote(e, option) {
-    e.preventDefault()
-    this.props.votePost({
+    e.preventDefault();
+    this.props.thunkVotePost({
       postId: this.props.post.id,
       option
-    })
+    });
   }
   render() {
     return (
@@ -34,22 +34,27 @@ class PostSimple extends Component {
               />
             </span>
             <span className="right floated star">
-              <i className="thumbs down icon" />
+              <i
+                className="thumbs down icon"
+                onClick={e => this.handleVote(e, "downVote")}
+              />
             </span>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-function mapStateToProps({ posts, categories }) {
-  return {}
+function mapStateToProps({ posts }) {
+  return {
+    posts: posts
+  };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    votePost: data => dispatch(votePost(data))
-  }
+    thunkVotePost: data => dispatch(thunkVotePost(data))
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostSimple)
+export default connect(mapStateToProps, mapDispatchToProps)(PostSimple);
