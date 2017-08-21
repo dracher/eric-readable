@@ -17,6 +17,9 @@ class Categories extends Component {
         <Link className="item" to="/">
           <i className="list layout icon" />Categories
         </Link>
+        <a className="item" onClick={() => this.props.setCategoryFilter("ALL")}>
+          <i className="comment outline icon" /> ALL
+        </a>
         {categories.length !== 0 &&
           categories.map(c =>
             <a
@@ -27,7 +30,7 @@ class Categories extends Component {
               <i className="comment outline icon" /> {c}
             </a>
           )}
-        <Link className="item right active" to="/post/new">
+        <Link className="item right active" to="/posts/new">
           <i className="plus icon" />New Post
         </Link>
       </div>

@@ -93,7 +93,7 @@ export function newComment(params) {
     },
     method: "POST",
     body: JSON.stringify(payload)
-  }).then(res => res)
+  }).then(res => res.json())
 }
 
 export function fetchCommentByID(comment_id) {

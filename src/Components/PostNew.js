@@ -11,13 +11,10 @@ class PostNew extends Component {
     category: ""
   }
 
-  componentDidMount() {}
-
   handleChange(k, v) {
     this.setState({ [k]: v })
   }
   handleSubmit(e) {
-    console.log(123123)
     e.preventDefault()
     const { title, author, body, category } = this.state
     let payload = {
@@ -26,7 +23,7 @@ class PostNew extends Component {
       author,
       category
     }
-    this.props.thunkAddPost(payload)
+    this.props.thunkAddPost(payload).then(() => this.props.history.push("/"))
   }
 
   render() {

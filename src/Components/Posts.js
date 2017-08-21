@@ -1,78 +1,64 @@
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
 import "./Posts.css"
 import { connect } from "react-redux"
 import * as api from "../Util/api"
-import { unixToReadable } from "../Util/helper"
-import { addPost } from "../Actions"
+import PostSimple from "./PostSimple"
+import { addPost, sortPost } from "../Actions"
 
 class Posts extends Component {
   componentDidMount() {
-    api.fetchAllPosts().then(post => {
-      this.props.addPost(post)
-    })
+    // get initial data
+    this.props.posts.length === 0 &&
+      api.fetchAllPosts().then(post => {
+        console.log("fetching posts")
+        this.props.addPost(post)
+        this.props.sortPost("voteScore")
+      })
   }
 
   render() {
-    const { posts } = this.props
     return (
       <div>
-        <button className="ui button primary">SortByVote</button>
-        <button className="ui button primary">SortByDate</button>
-        <div className="ui one column grid">
-          {posts.length !== 0
-            ? posts.map(post =>
-                <div className="column" key={post.id}>
-                  <div className="ui card fluid">
-                    <div className="content">
-                      <div className="right floated ui grey circular label">
-                        {post.voteScore}
-                      </div>
+        <button
+          className="ui button primary compact basic"
+          onClick={e => this.props.sortPost("voteScore")}
+        >
+          SortByVote
+        </button>
+        <button
+          className="ui button primary compact basic"
+          onClick={e => this.props.sortPost("timestamp")}
+        >
+          SortByDate
+        </button>
 
-                      <div className="header">
-                        <Link to={"/post/" + post.id}>
-                          {post.title} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [{post.category}]
-                        </Link>
-                      </div>
-                      <div className="meta">
-                        {post.author} - {unixToReadable(post.timestamp)}
-                      </div>
-                      <div className="description">
-                        <p>
-                          {post.body}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="extra content">
-                      <span className="left floated like">
-                        <i className="thumbs outline up icon" />
-                      </span>
-                      <span className="right floated star">
-                        <i className="thumbs down icon" />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )
-            : <div />}
+        <div className="ui one column grid">
+          {this.props.posts.length !== 0 &&
+            this.props.filter === "ALL" &&
+            this.props.posts
+              .filter(p => !p.deleted)
+              .map(p => <PostSimple post={p} key={p.id} />)}
+
+          {this.props.posts.length !== 0 &&
+            this.props.posts
+              .filter(p => !p.deleted && p.category === this.props.filter)
+              .map(p => <PostSimple post={p} key={p.id} />)}
         </div>
       </div>
     )
   }
 }
 
-function mapStateToProps({ posts }) {
+function mapStateToProps({ posts, categories }) {
   return {
-    posts: posts
+    posts: posts,
+    filter: categories.filter
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
-    addPost: data => dispatch(addPost(data))
-    // updatePosts: data => dispatch(updatePosts(data)),
-    // thunkVotePost: data => dispatch(thunkVotePost(data)),
-    // sortVote: data => dispatch(sortPost(data)),
-    // groupPost: data => dispatch(groupPost(data))
+    addPost: data => dispatch(addPost(data)),
+    sortPost: data => dispatch(sortPost(data))
   }
 }
 

@@ -3,6 +3,8 @@ import { Route } from "react-router-dom"
 import Categories from "./Categories"
 import Posts from "./Posts"
 import PostNew from "./PostNew"
+import PostEdit from "./PostEdit"
+import PostDetail from "./PostDetail"
 
 class App extends Component {
   render() {
@@ -24,9 +26,25 @@ class App extends Component {
 
         <Route
           exact
-          path="/post/new"
-          render={() => {
-            return <PostNew />
+          path="/posts/new"
+          render={({ history }) => {
+            return <PostNew history={history} />
+          }}
+        />
+
+        <Route
+          exact
+          path="/posts/edit/:postId"
+          render={({ match, history }) => {
+            return <PostEdit postId={match.params.postId} history={history} />
+          }}
+        />
+
+        <Route
+          exact
+          path="/post/:postId"
+          render={({ match, history }) => {
+            return <PostDetail postId={match.params.postId} history={history} />
           }}
         />
       </div>
