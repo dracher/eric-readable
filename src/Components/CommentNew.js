@@ -61,4 +61,10 @@ class CommentNew extends Component {
   }
 }
 
-export default connect({}, { thunkNewComment })(CommentNew)
+function mapStateToProps({ comments }) {
+  return {
+    comments: comments
+  }
+}
+
+export default connect(mapStateToProps, { thunkNewComment })(CommentNew)
