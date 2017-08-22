@@ -10,6 +10,11 @@ class Categories extends Component {
       this.props.addCategory(data)
     })
   }
+  componentWillReceiveProps(nextProps) {
+    nextProps.cat !== undefined
+      ? this.props.setCategoryFilter(nextProps.cat)
+      : this.props.setCategoryFilter("ALL")
+  }
   render() {
     const { categories } = this.props
     return (
@@ -17,18 +22,12 @@ class Categories extends Component {
         <Link className="item" to="/">
           <i className="list layout icon" />Reabable
         </Link>
-        <a className="item" onClick={() => this.props.setCategoryFilter("ALL")}>
-          <i className="comment outline icon" /> ALL
-        </a>
+
         {categories.length !== 0 &&
           categories.map(c =>
-            <a
-              className="item"
-              onClick={() => this.props.setCategoryFilter(c)}
-              key={c}
-            >
+            <Link className="item" to={c} key={c}>
               <i className="comment outline icon" /> {c}
-            </a>
+            </Link>
           )}
         <Link className="item right active" to="/posts/new">
           <i className="plus icon" />New Post

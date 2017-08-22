@@ -20,7 +20,11 @@ class PostSimple extends Component {
               {this.props.post.voteScore}
             </div>
             <div className="header">
-              <Link to={"/post/" + this.props.post.id}>
+              <Link
+                to={
+                  "/post/" + this.props.post.category + "/" + this.props.post.id
+                }
+              >
                 {this.props.post.title} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [{this.props.post.category}]
               </Link>
             </div>

@@ -12,7 +12,7 @@ class PostEdit extends Component {
     this.setState({ [k]: v })
   }
   handleSubmit(e) {
-    let backUrl = `/post/${this.props.postId}`
+    let backUrl = `/post/${this.state.category}/${this.props.postId}`
     e.preventDefault()
     const { title, body } = this.state
     let payload = {
@@ -25,7 +25,7 @@ class PostEdit extends Component {
   }
 
   render() {
-    const { title, body } = this.state
+    const { title, body, category } = this.state
     return (
       <form className="ui form">
         <div className="field">
@@ -51,7 +51,10 @@ class PostEdit extends Component {
         >
           Submit
         </button>
-        <Link className="ui button red" to={"/post/" + this.props.postId}>
+        <Link
+          className="ui button red"
+          to={"/post/" + category + "/" + this.props.postId}
+        >
           Cancel
         </Link>
       </form>

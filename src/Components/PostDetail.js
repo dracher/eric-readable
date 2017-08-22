@@ -88,7 +88,13 @@ class PostDetail extends Component {
         {this.props.comments.length !== 0 &&
           this.props.comments
             .filter(c => !c.deleted)
-            .map(comment => <Comment key={comment.id} comment={comment} />)}
+            .map(comment =>
+              <Comment
+                key={comment.id}
+                comment={comment}
+                postCat={this.props.postCat}
+              />
+            )}
       </div>
     )
   }

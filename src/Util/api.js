@@ -1,7 +1,7 @@
 import { uuidv4 } from "./helper.js"
 
 const headers = { Authorization: "eric-readable" }
-const apiURL = "http://0.0.0.0:5001"
+const apiURL = "http://localhost:5001"
 
 export function fetchCategories() {
   return fetch(apiURL + "/categories", { headers })

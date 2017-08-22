@@ -28,6 +28,20 @@ class App extends Component {
 
         <Route
           exact
+          path="/:category"
+          render={({ match, history }) => {
+            return (
+              <div>
+                <Categories cat={match.params.category} />
+                <br />
+                <Posts />
+              </div>
+            )
+          }}
+        />
+
+        <Route
+          exact
           path="/posts/new"
           render={({ history }) => {
             return <PostNew history={history} />
@@ -44,9 +58,15 @@ class App extends Component {
 
         <Route
           exact
-          path="/post/:postId"
+          path="/post/:category/:postId"
           render={({ match, history }) => {
-            return <PostDetail postId={match.params.postId} history={history} />
+            return (
+              <PostDetail
+                postCat={match.params.category}
+                postId={match.params.postId}
+                history={history}
+              />
+            )
           }}
         />
 
