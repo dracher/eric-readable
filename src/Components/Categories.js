@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import * as api from "../Util/api.js"
-import { addCategory, setCategoryFilter } from "../Actions"
+import { addCategory, setCategoryFilter } from "../Actions/CategoryActions"
 
 class Categories extends Component {
   componentDidMount() {
@@ -44,11 +44,7 @@ function mapStateToProps({ categories }) {
     filter: categories.filter
   }
 }
-function mapDispatchToProps(dispatch) {
-  return {
-    addCategory: data => dispatch(addCategory(data)),
-    setCategoryFilter: data => dispatch(setCategoryFilter(data))
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Categories)
+export default connect(mapStateToProps, { addCategory, setCategoryFilter })(
+  Categories
+)

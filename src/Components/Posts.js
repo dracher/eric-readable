@@ -3,7 +3,7 @@ import "./Posts.css"
 import { connect } from "react-redux"
 import * as api from "../Util/api"
 import PostSimple from "./PostSimple"
-import { addPost, sortPost } from "../Actions"
+import { addPost, sortPost } from "../Actions/PostActions"
 
 class Posts extends Component {
   componentDidMount() {
@@ -55,11 +55,5 @@ function mapStateToProps({ posts, categories }) {
     filter: categories.filter
   }
 }
-function mapDispatchToProps(dispatch) {
-  return {
-    addPost: data => dispatch(addPost(data)),
-    sortPost: data => dispatch(sortPost(data))
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Posts)
+export default connect(mapStateToProps, { addPost, sortPost })(Posts)

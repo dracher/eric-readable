@@ -1,30 +1,30 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { thunkEditComment } from "../Actions";
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import { connect } from "react-redux"
+import { thunkEditComment } from "../Actions/CommentActions"
 
 class CommentEdit extends Component {
   state = {
     ...this.props.comments.filter(c => this.props.commentId === c.id)[0]
-  };
+  }
 
   handleChange(k, v) {
-    this.setState({ [k]: v });
+    this.setState({ [k]: v })
   }
   handleSubmit(e) {
-    e.preventDefault();
-    let backUrl = `/post/${this.state.parentId}`;
-    const { body } = this.state;
+    e.preventDefault()
+    let backUrl = `/post/${this.state.parentId}`
+    const { body } = this.state
     let payload = {
       body
-    };
+    }
     this.props
       .thunkEditComment({ commentId: this.state.id, comment: payload })
-      .then(() => this.props.history.push(backUrl));
+      .then(() => this.props.history.push(backUrl))
   }
 
   render() {
-    const { body } = this.state;
+    const { body } = this.state
     return (
       <form className="ui form">
         <div className="field">
@@ -45,19 +45,14 @@ class CommentEdit extends Component {
           Cancel
         </Link>
       </form>
-    );
+    )
   }
 }
 
 function mapStateToProps({ comments }) {
   return {
     comments: comments
-  };
-}
-function mapDispatchToProps(dispatch) {
-  return {
-    thunkEditComment: data => dispatch(thunkEditComment(data))
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentEdit);
+export default connect(mapStateToProps, { thunkEditComment })(CommentEdit)

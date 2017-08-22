@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { thunkNewComment } from "../Actions"
+import { thunkNewComment } from "../Actions/CommentActions"
 import { connect } from "react-redux"
 
 class CommentNew extends Component {
@@ -61,13 +61,4 @@ class CommentNew extends Component {
   }
 }
 
-function mapStateToProps({ categories }) {
-  return {}
-}
-function mapDispatchToProps(dispatch) {
-  return {
-    thunkNewComment: data => dispatch(thunkNewComment(data))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentNew)
+export default connect({}, { thunkNewComment })(CommentNew)

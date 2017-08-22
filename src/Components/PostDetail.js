@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import Comment from "./Comment";
-import CommentNew from "./CommentNew";
-import { unixToReadable } from "../Util/helper";
-import * as api from "../Util/api";
-import { addComment, sortComment, thunkDelPost } from "../Actions";
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import { connect } from "react-redux"
+import Comment from "./Comment"
+import CommentNew from "./CommentNew"
+import { unixToReadable } from "../Util/helper"
+import * as api from "../Util/api"
+import { addComment, sortComment } from "../Actions/CommentActions"
+import { thunkDelPost } from "../Actions/PostActions"
 
 class PostDetail extends Component {
   state = {
@@ -13,16 +14,16 @@ class PostDetail extends Component {
       this.props.posts.filter(post => post.id === this.props.postId).length ===
         1 &&
       this.props.posts.filter(post => post.id === this.props.postId)[0].id
-  };
+  }
 
   componentDidMount() {
     api
       .fetchCommentsByPostID(this.props.postId)
       .then(comments => this.props.addComment(comments))
-      .then(() => this.props.sortComment("voteScore"));
+      .then(() => this.props.sortComment("voteScore"))
   }
   removePost(postId) {
-    this.props.thunkDelPost(postId).then(() => this.props.history.push("/"));
+    this.props.thunkDelPost(postId).then(() => this.props.history.push("/"))
   }
   render() {
     return (
@@ -89,7 +90,7 @@ class PostDetail extends Component {
             .filter(c => !c.deleted)
             .map(comment => <Comment key={comment.id} comment={comment} />)}
       </div>
-    );
+    )
   }
 }
 
@@ -97,14 +98,11 @@ function mapStateToProps({ posts, comments }) {
   return {
     posts: posts,
     comments: comments
-  };
-}
-function mapDispatchToProps(dispatch) {
-  return {
-    addComment: data => dispatch(addComment(data)),
-    sortComment: data => dispatch(sortComment(data)),
-    thunkDelPost: data => dispatch(thunkDelPost(data))
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);
+export default connect(mapStateToProps, {
+  addComment,
+  sortComment,
+  thunkDelPost
+})(PostDetail)

@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
-import { thunkAddPost } from "../Actions"
+import { thunkAddPost } from "../Actions/PostActions"
 
 class PostNew extends Component {
   state = {
@@ -94,10 +94,5 @@ function mapStateToProps({ categories }) {
     categories: categories.categories
   }
 }
-function mapDispatchToProps(dispatch) {
-  return {
-    thunkAddPost: data => dispatch(thunkAddPost(data))
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostNew)
+export default connect(mapStateToProps, { thunkAddPost })(PostNew)

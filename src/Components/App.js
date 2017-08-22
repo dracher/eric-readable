@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Route } from "react-router-dom";
-import Categories from "./Categories";
-import Posts from "./Posts";
-import PostNew from "./PostNew";
-import PostEdit from "./PostEdit";
-import PostDetail from "./PostDetail";
-import CommentEdit from "./CommentEdit";
-import "./App.css";
+import React, { Component } from "react"
+import { Route } from "react-router-dom"
+import Categories from "./Categories"
+import Posts from "./Posts"
+import PostNew from "./PostNew"
+import PostEdit from "./PostEdit"
+import PostDetail from "./PostDetail"
+import CommentEdit from "./CommentEdit"
+import "./App.css"
 
 class App extends Component {
   render() {
@@ -22,7 +22,7 @@ class App extends Component {
                 <br />
                 <Posts />
               </div>
-            );
+            )
           }}
         />
 
@@ -30,7 +30,7 @@ class App extends Component {
           exact
           path="/posts/new"
           render={({ history }) => {
-            return <PostNew history={history} />;
+            return <PostNew history={history} />
           }}
         />
 
@@ -38,7 +38,7 @@ class App extends Component {
           exact
           path="/posts/edit/:postId"
           render={({ match, history }) => {
-            return <PostEdit postId={match.params.postId} history={history} />;
+            return <PostEdit postId={match.params.postId} history={history} />
           }}
         />
 
@@ -46,9 +46,7 @@ class App extends Component {
           exact
           path="/post/:postId"
           render={({ match, history }) => {
-            return (
-              <PostDetail postId={match.params.postId} history={history} />
-            );
+            return <PostDetail postId={match.params.postId} history={history} />
           }}
         />
 
@@ -61,12 +59,12 @@ class App extends Component {
                 commentId={match.params.commentId}
                 history={history}
               />
-            );
+            )
           }}
         />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { thunkVotePost } from "../Actions";
-import { connect } from "react-redux";
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import { thunkVotePost } from "../Actions/PostActions"
+import { connect } from "react-redux"
 
 class PostSimple extends Component {
   handleVote(e, option) {
-    e.preventDefault();
+    e.preventDefault()
     this.props.thunkVotePost({
       postId: this.props.post.id,
       option
-    });
+    })
   }
   render() {
     return (
@@ -42,19 +42,14 @@ class PostSimple extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
 function mapStateToProps({ posts }) {
   return {
     posts: posts
-  };
-}
-function mapDispatchToProps(dispatch) {
-  return {
-    thunkVotePost: data => dispatch(thunkVotePost(data))
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostSimple);
+export default connect(mapStateToProps, { thunkVotePost })(PostSimple)
