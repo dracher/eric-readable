@@ -6,14 +6,26 @@ import CommentNew from "./CommentNew"
 import { unixToReadable } from "../Util/helper"
 import * as api from "../Util/api"
 import { addComment, sortComment } from "../Actions/CommentActions"
-import { thunkDelPost } from "../Actions/PostActions"
+import { thunkDelPost, addPost } from "../Actions/PostActions"
 
 class PostDetail extends Component {
-  state = {
-    postId:
-      this.props.posts.filter(post => post.id === this.props.postId).length ===
-        1 &&
-      this.props.posts.filter(post => post.id === this.props.postId)[0].id
+  componentWillMount() {
+    if (this.props.posts.length === 0) {
+      api
+        .fetchAllPosts()
+        .then(post => {
+          this.props.addPost(post)
+        })
+        .then(() => {
+          let post = this.props.posts.filter(p => p.id === this.props.postId)
+          post.length === 1 &&
+            post[0].deleted &&
+            this.props.history.push("/4/0/4")
+        })
+    } else {
+      let post = this.props.posts.filter(p => p.id === this.props.postId)
+      post.length === 1 && post[0].deleted && this.props.history.push("/4/0/4")
+    }
   }
 
   componentDidMount() {
@@ -32,7 +44,7 @@ class PostDetail extends Component {
           <i className="arrow left icon" />Back to Home
         </Link>
         {this.props.posts
-          .filter(post => post.id === this.props.postId)
+          .filter(post => post.id === this.props.postId && !post.deleted)
           .map(post =>
             <div className="ui card fluid" key={post.id}>
               <div className="content">
@@ -67,7 +79,7 @@ class PostDetail extends Component {
             </div>
           )}
 
-        <CommentNew parentId={this.state.postId} />
+        <CommentNew parentId={this.props.postId} />
 
         {this.props.comments.length !== 0 &&
           <div>
@@ -110,5 +122,6 @@ function mapStateToProps({ posts, comments }) {
 export default connect(mapStateToProps, {
   addComment,
   sortComment,
-  thunkDelPost
+  thunkDelPost,
+  addPost
 })(PostDetail)
